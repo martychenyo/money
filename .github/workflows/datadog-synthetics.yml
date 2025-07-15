@@ -1,0 +1,61 @@
+# This workflow will trigger Datadog Synthetic tests within your Datadog organisation
+# For more information on running Synthetic tests within your GitHub workflows see: https://docs.datadoghq.com/synthetics/cicd_integrations/github_actions/
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+# To get started:
+
+# 1. Add your Datadog API (DD_API_KEY) and Application Key (DD_APP_KEY) as secrets to your GitHub repository. For more information, see: https://docs.datadoghq.com/account_management/api-app-keys/.
+# 2. Start using the action within your workflow
+
+name: Run Datadog Synthetic tests
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    # Run Synthetic tests within your GitHub workflow.
+    # For additional configuration options visit the action within the marketplace: https://github.com/marketplace/actions/datadog-synthetics-ci
+    - name: Run Datadog Synthetic tests
+      uses: DataDog/synthetics-ci-github-action@87b505388a22005bb8013481e3f73a367b9a53eb # v1.4.0
+      with:
+        api_key: ${{secrets.DD_API_KEY}}
+        app_key: ${{secrets.DD_APP_KEY}}
+        test_search_query: 'tag:e2e-tests' #Modify this tag to suit your tagging strategy
+            - 名稱：設定 Node.js 環境
+  用途：actions/setup-node@v3.9.1
+  和：
+    # 在 npmrc 中設定 always-auth。
+    always-auth: # 可選，預設為 false
+    # 指定要使用的版本。範例：12.x、10.15.1、>=10.15.0。
+    節點版本：#可選
+    # 包含要使用的版本的版本規範的檔案。範例：.nvmrc、.node-version、.tool-versions。
+    node-version-file: #可選
+    # Node 的目標架構。例如：x86、x64。預設使用系統架構。
+    架構：#可選
+    # 如果您希望操作檢查符合版本規範的最新可用版本，請設定此選項。
+    檢查最新：#可選
+    # 可選的註冊表設定用於身份驗證。將在專案級 .npmrc 和 .yarnrc 檔案中設定登錄，並設定驗證以從 env.NODE_AUTH_TOKEN 讀取。
+    registry-url: #可選
+    # 可選範圍，用於針對作用域註冊表進行身份驗證。使用 GitHub Packages 註冊表 (https://npm.pkg.github.com/) 時，將回退至儲存庫擁有者。
+    範圍：#可選
+    # 用於從 node-versions 拉取 node 發行版。由於存在預設值，用戶通常無需提供。在 github.com 上執行此操作時，預設值即可。在 GHES 上運行時，如果遇到速率限制，您可以傳遞 github.com 的個人存取權杖。
+    token: # 可選，預設為 ${{ github.server_url == 'https://github.com' && github.token || '' }}
+    # 用於指定在預設目錄中進行快取的套件管理器。支援的值：npm、yarn、pnpm。
+    快取：#可選
+    # 用於指定依賴檔案的路徑：package-lock.json、yarn.lock 等。支援通配符或檔案名稱列表，用於快取多個相依性。
+    快取依賴路徑：#可選
+          
+
